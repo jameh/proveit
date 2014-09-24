@@ -60,7 +60,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'read_default_file': os.path.join(BASE_DIR, 'prvdb.cnf'),
+            'read_default_file': '/home/jamie/code/prove-it/prvdb.cnf',
         },
     }
 }

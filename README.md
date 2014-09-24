@@ -21,4 +21,6 @@ default-character-set = utf8' > prvdb.cnf
 # dev log
 ```
 ./venv/bin/django-admin.py startproject proveit
+./venv/bin/python ./proveit/manage.py migrate
+./venv/bin/python ./proveit/manage.py runserver
 ```
