@@ -1,3 +1,4 @@
 prvdb.cnf
 venv/
 *.pyc
+migrations/
