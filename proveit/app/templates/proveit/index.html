@@ -1,0 +1,18 @@
+{% extends "proveit/boilerplate.html" %}
+
+{% block title %}This is the index page.{% endblock %}
+
+{% block content %}
+<h1>Front page</h1>
+
+{% for proof in proof_list %}
+<h2>
+	<a href="{{ proof.get_absolute_url }}">
+		{{ proof.title }}
+	</a>
+</h2>
+{% for prooved in proof.prooved %}
+<p>{{ prooved.text|truncatewords:"100" }}
+{% endfor %}
+{% endfor %}
+{% endblock %}

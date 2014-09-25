@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load staticfiles %}
+	<link rel="stylesheet" type="text/css" href="{% static "proveit/css/normalize.css" %}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+	<div>
+	{% if not username %}
+		<p>Hello, anon</p>
+		<p><a href="/login">Sign in</a> / <a href="/signup">Sign Up</a></p>
+	{% else %}
+		<p>Hello, {{ username }}</p>
+		<p><a href="/logout">Log out</a></p>
+	{% endif %}
+	</div>
+	<div id="content">
+		{% block content %}{% endblock %}
+	</div>
+</body>
+</html>
