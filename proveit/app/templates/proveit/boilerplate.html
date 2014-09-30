@@ -30,13 +30,13 @@
 				<a class="navbar-brand" href="/">Prove it</a>
 			</div>
 			<div class="navbar-collapse collapse">
-				<div id="personal">
+				<div id="personal" class="navbar-right">
 					<ul class="nav navbar-nav">
 					{% if not username %}
 						<li><a href="/login">Sign in</a></li>
 						<li><a href="/signup">Sign Up</a></li>
 					{% else %}
-						<li>Hello, {{ username }}</li>
+						<li><p class="navbar-text">Hello, {{ username }}</p></li>
 						<li><a href="/logout">Log out</a></li>
 					{% endif %}
 					</ul>
