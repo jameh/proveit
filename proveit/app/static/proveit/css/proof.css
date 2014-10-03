@@ -1,0 +1,21 @@
+#editor {
+	width: 720px;
+	position: fixed;
+	margin-left: auto;
+	margin-right: auto;
+	right: 0;
+	left: 0;
+	bottom: 0;
+}
+
+#id_proof_title {
+	width: 100%;
+}
+
+#id_proof_abstract {
+	width: 100%;
+}
+
+#platform {
+	width: 100%;
+}

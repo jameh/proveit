@@ -1,0 +1,73 @@
+{% extends "proveit/boilerplate.html" %}
+{% block links %}
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "proveit/css/proof.css" %}">
+
+{% endblock %}
+{% block title %}Editing a proof{% endblock %}
+{% block content %}
+<p>Write your proof</p>
+<div id="doc-preview" class="mathjax">
+{{ proof_markdown|safe }}
+</div>
+<form action="/new" method="post" id="proof-form">
+  {% csrf_token %}
+  {% for field in form.fields %}
+  <div class="field-wrapper">
+    {{ field.errors }}
+    {{ field.label_tag.as_hidden }} {{ field.as_hidden }}
+  </div>
+  {% endfor %}
+  
+  
+  <button id="preview" name="preview" type="submit">Preview</button>
+  <button id="save" name="save" type="submit">Save</button>
+</form>
+
+<div id="platform">
+</div>
+<div id="editor">lala</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript"
+        src="https://raw.github.com/meetselva/attrchange/master/attrchange.js"></script>
+<script src="{% static "ace-builds/src-noconflict/ace.js" %}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  // Set up ace editor
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/markdown");
+  editor.setOptions({maxLines: 50, minLines: 10});
+
+  // Get initial editor contents from django form
+  var textarea = $('textarea[name="proof"]');
+  editor.getSession().setValue(textarea.val());
+
+  editor.getSession().on("change", function() {
+    textarea.val(editor.getSession().getValue());
+  });
+
+  // Set platform height to editor height
+  var platform = $('#platform').height($('#editor').height());
+  // on changes to editor height, adjust platform height
+  var editorHeight = $('#editor').height();
+  $('#editor').attrchange({
+    callback: function(e) {
+      var curHeight = $('#editor').height();
+      if (editorHeight !== curHeight) {
+        platform.height(curHeight);
+        editorHeight = curHeight;
+      }
+    }
+  });
+  $(document).on("keypress", function(e) {
+    console.log(e);
+    if (e.keyCode === 13 && e.ctrlKey === true) {
+      $('#proof-form').submit()
+    }
+  });
+});
+</script>
+{% endblock %}
