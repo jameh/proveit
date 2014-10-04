@@ -1,15 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib import auth
+from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
-from django import forms
-from django.forms import ModelForm
-from django.db import models
-
-from models import Proof
 
 from app.util.proof_processor import mdProcessor
-
+from app.forms import ProofForm
 
 """Get the user context, adding it to the dictionary"""
 def _get_user_context(request, context={}):
@@ -40,11 +34,6 @@ edit button for owner
 """
 def proof(request):
     pass
-
-class ProofForm(ModelForm):
-    class Meta:
-        model = Proof
-        fields = ['proof']
 
 """Create new proof, edit interface
 url is /new
