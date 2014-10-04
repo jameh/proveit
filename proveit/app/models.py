@@ -11,6 +11,7 @@ class Proof(models.Model):
     proof_title = models.CharField(max_length=200)
     proof_abstract = models.CharField(max_length=500)
     proof = models.TextField(max_length=10000)
+    revision = models.IntegerField()
     terms = models.ManyToManyField('Definition', related_name='references')
     proved = models.ManyToManyField('Proposition', related_name='proof_proved')
     assumed = models.ManyToManyField('Proposition', related_name='proof_assumed')
@@ -27,3 +28,7 @@ class User(models.Model):
 class Definition(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField(max_length=10000)
+
+class Comment(models.Model):
+    proof = models.ForeignKey(Proof)
+    element_number = models.IntegerField()
