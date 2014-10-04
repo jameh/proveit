@@ -12,10 +12,10 @@
 </div>
 <form action="/new" method="post" id="proof-form">
   {% csrf_token %}
-  {% for field in form.fields %}
-  <div class="field-wrapper">
+  {% for field in form.visible_fields %}
+  <div class="field-wrapper" style="display: none;">
     {{ field.errors }}
-    {{ field.label_tag.as_hidden }} {{ field.as_hidden }}
+    {{ field.label_tag }} {{ field }}
   </div>
   {% endfor %}
   
