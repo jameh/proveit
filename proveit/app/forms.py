@@ -5,4 +5,4 @@ from app.models import Proof
 class ProofForm(ModelForm):
     class Meta:
         model = Proof
-        fields = ['proof']
+        fields = ['proof_markdown',]

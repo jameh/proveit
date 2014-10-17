@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
+from django.db import OperationalError
 
 from app.util.proof_processor import mdProcessor
 from app.forms import ProofForm
+from app.util.url_generator import next_id
+from app.models import Proof
 
 """Get the user context, adding it to the dictionary"""
 def _get_user_context(request, context={}):
@@ -45,11 +48,27 @@ def new(request):
         form = ProofForm(request.POST)
         if form.is_valid():
             print("VALID FORM")
-            print(form.cleaned_data['proof'])
+            print(form.cleaned_data['proof_markdown'])
             if 'preview' in request.POST:
                 # here, we've requested simply a markdown preview
-                context['proof_markdown'] = mdProcessor.convert(form.cleaned_data['proof'])
-                # context['markdown_preview'] = md(form.proof)
+                context['parsed_markdown'] = mdProcessor.convert(form.cleaned_data['proof_markdown'])
+                # make an entry in 
+            else:
+                # this is a publish command
+                # add data not in form
+                try:
+                    last_proof = Proof.objects.get(pk=1)
+                    last_id = last_proof.proof_id
+                except OperationalError:
+                    last_id = "hXrl33t"
+                new_id = next_id(last_id)
+                proof = Proof(proof_id=new_id)
+
+                form = ProofForm(request.POST, instance=proof)
+                form.save()
+
+                # redirect to /h4sh/edit
+                return HttpResponseRedirect('/' + new_id + '/edit')
         else:
             print("INVALID FORM")
         # check that form is valid, from 'publish' button
@@ -63,8 +82,8 @@ def new(request):
 """# Proof title
 ## Abstract
 """
-        form = ProofForm(initial={'proof': initial_markdown})
-        context['proof_markdown'] = mdProcessor.convert(initial_markdown)
+        form = ProofForm(initial={'proof_markdown': initial_markdown})
+        context['parsed_markdown'] = mdProcessor.convert(initial_markdown)
     context["form"] = form
 
     return render(request, "proveit/edit.html", context)

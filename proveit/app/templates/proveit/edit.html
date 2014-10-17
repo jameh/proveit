@@ -8,7 +8,7 @@
 {% block content %}
 <p>Write your proof</p>
 <div id="doc-preview" class="mathjax">
-{{ proof_markdown|safe }}
+{{ parsed_markdown|safe }}
 </div>
 <form action="/new" method="post" id="proof-form">
   {% csrf_token %}
@@ -19,9 +19,8 @@
   </div>
   {% endfor %}
   
-  
-  <button id="preview" name="preview" type="submit">Preview</button>
-  <button id="save" name="save" type="submit">Save</button>
+  <button id="preview" name="preview" type="submit">Preview and Save To Drafts</button>
+  <button id="publish" name="publish" type="submit">Publish</button>
 </form>
 
 <div id="platform">
@@ -42,7 +41,7 @@ $(document).ready(function() {
   editor.setOptions({maxLines: 50, minLines: 10});
 
   // Get initial editor contents from django form
-  var textarea = $('textarea[name="proof"]');
+  var textarea = $('textarea[name="proof_markdown"]');
   editor.getSession().setValue(textarea.val());
 
   editor.getSession().on("change", function() {

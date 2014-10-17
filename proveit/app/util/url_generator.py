@@ -25,7 +25,7 @@ class Base62Converter(object):
     def to_string(num):
         string = ""
         num = num % 62**7
-        for power in range(6, 0, -1):
+        for power in range(6, -1, -1):
             val = int(num / (62**power))
             num -= val * 62**power
             string += Base62Converter.chars[val]
